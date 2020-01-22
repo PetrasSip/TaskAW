@@ -14,8 +14,10 @@ class CreateQuantitiesTable extends Migration
     public function up()
     {
         Schema::create('quantities', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->unsignedBigInteger('product_id');
+            $table->bigInteger('quantity');
+
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

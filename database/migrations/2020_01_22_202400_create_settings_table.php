@@ -14,8 +14,10 @@ class CreateSettingsTable extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+            $table->unsignedBigInteger('product_id');
+            $table->bigInteger('vat');
+
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

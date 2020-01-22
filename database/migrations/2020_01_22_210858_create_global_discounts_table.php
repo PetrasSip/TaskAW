@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductReviewsTable extends Migration
+class CreateGlobalDiscountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateProductReviewsTable extends Migration
      */
     public function up()
     {
-        Schema::create('product_reviews', function (Blueprint $table) {
+        Schema::create('global_discounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('reviewer_name');
-            $table->unsignedBigInteger('product_id');
-            $table->mediumText('message');
-            $table->Integer('rating');
-            $table->date('created_at');
+            $table->bigInteger('discount_global');
         });
     }
 
@@ -30,6 +26,6 @@ class CreateProductReviewsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_reviews');
+        Schema::dropIfExists('global_discounts');
     }
 }
