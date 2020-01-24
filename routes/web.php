@@ -14,6 +14,7 @@
 
 
 Route::get('/', 'PagesController@index')->name('dashboard');
+Route::get('/product/{id}', 'PagesController@productselected')->name('product');
 
 Auth::routes();
 

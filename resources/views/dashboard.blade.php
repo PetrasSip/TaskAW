@@ -10,49 +10,20 @@
                     <div class="row">
                         <div class="container">
                             <div class="card-group">
-                                <div class="card" style="width:400px">
-                                    <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title">John Doe</h4>
-                                        <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-                                        <a href="#" class="btn btn-primary">See Profile</a>
-                                    </div>
-                                </div>
 
-                                <div class="card" style="width:400px">
-                                    <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title">John Doe</h4>
-                                        <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-                                        <a href="#" class="btn btn-primary">See Profile</a>
+                                @foreach($products as $product)
+                                    <div class="card" style="width:400px">
+{{--                                        <a href="{{ url('/invitation/show/', $group) }}" class="btn btn-primary">Invite User to Group</a>--}}
+                                        <a href="{{ url('/product/',$product->id) }}"><img class="card-img-top" src="{{ url ('storage/'.$product->img)}}" alt="Card image" style="width:100%"></a>
+                                        <div class="card-body">
+                                            <h4 class="card-title">{{$product->name}}</h4>
+                                            <h6>{{$product->price}}</h6>
+                                            <p class="card-text">{{$product->description}}</p>
+                                            <a href="#" class="btn btn-primary">See Profile</a>
+                                        </div>
                                     </div>
-                                </div>
+                                @endforeach
 
-                                <div class="card" style="width:400px">
-                                    <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title">John Doe</h4>
-                                        <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-                                        <a href="#" class="btn btn-primary">See Profile</a>
-                                    </div>
-                                </div>
-
-                                <div class="card" style="width:400px">
-                                    <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title">John Doe</h4>
-                                        <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-                                        <a href="#" class="btn btn-primary">See Profile</a>
-                                    </div>
-                                </div>
-
-                                <div class="card" style="width:600px">
-                                    <img class="card-img-top" src="img_avatar1.png" alt="Card image" style="width:100%">
-                                    <div class="card-body">
-                                        <h4 class="card-title">John Doe</h4>
-                                        <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
-                                        <a href="#" class="btn btn-primary">See Profile</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -61,5 +32,5 @@
                 </div>
             </div>
         </div>
-    </div>
+
 @endsection
