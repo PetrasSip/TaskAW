@@ -14,11 +14,11 @@ class CreateProductReviewsTable extends Migration
     public function up()
     {
         Schema::create('product_reviews', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->Increments('id');
             $table->string('reviewer_name');
-            $table->unsignedBigInteger('product_id');
-            $table->mediumText('message');
-            $table->Integer('rating');
+            $table->unsignedInteger('product_id');
+            $table->string('message', 256);
+            $table->smallInteger('rating');
             $table->date('created_at');
         });
     }

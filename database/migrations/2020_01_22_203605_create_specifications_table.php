@@ -14,8 +14,8 @@ class CreateSpecificationsTable extends Migration
     public function up()
     {
         Schema::create('specifications', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('specification_name');
+            $table->increments('id');
+            $table->string('name');
         });
     }
 

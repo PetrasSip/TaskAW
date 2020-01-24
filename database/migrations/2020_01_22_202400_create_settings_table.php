@@ -14,10 +14,9 @@ class CreateSettingsTable extends Migration
     public function up()
     {
         Schema::create('settings', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id');
-            $table->bigInteger('vat');
-
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->increments('id');
+            $table->string('property')->unique();
+            $table->string('value');
         });
     }
 

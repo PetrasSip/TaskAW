@@ -123,6 +123,8 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    'default_vat_size' => env('DEFAULT_VAT_SIZE', 21),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

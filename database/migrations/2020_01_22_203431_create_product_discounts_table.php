@@ -14,8 +14,8 @@ class CreateProductDiscountsTable extends Migration
     public function up()
     {
         Schema::create('product_discounts', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id');
-            $table->bigInteger('discount_ind');
+            $table->unsignedInteger('product_id');
+            $table->unsignedTinyInteger('discount');
 
             $table->foreign('product_id')->references('id')->on('products');
         });

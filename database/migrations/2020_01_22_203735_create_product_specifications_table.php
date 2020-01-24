@@ -14,8 +14,8 @@ class CreateProductSpecificationsTable extends Migration
     public function up()
     {
         Schema::create('product_specifications', function (Blueprint $table) {
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('specification_id');
+            $table->unsignedInteger('product_id');
+            $table->unsignedInteger('specification_id');
             $table->string('specification_text');
 
             $table->foreign('product_id')->references('id')->on('products');
