@@ -13,8 +13,7 @@
 
                                 @foreach($products as $product)
                                     <div class="card" style="width:400px">
-{{--                                        <a href="{{ url('/invitation/show/', $group) }}" class="btn btn-primary">Invite User to Group</a>--}}
-                                        <a href="{{ url('/product/',$product->id) }}"><img class="card-img-top" src="{{ url ('storage/'.$product->img)}}" alt="Card image" style="width:100%"></a>
+                                        <a href="{{ route('product', ['id'=>$product->id]) }}"><img class="card-img-top" src="{{ url ('storage/'.$product->img)}}" alt="Card image" style="width:100%"></a>
                                         <div class="card-body">
                                             <h4 class="card-title">{{$product->name}}</h4>
                                             <h6>{{$product->price}}</h6>

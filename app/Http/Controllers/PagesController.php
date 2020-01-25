@@ -22,12 +22,14 @@ class PagesController extends Controller
 
         $products = Product::all();
 //        $products = Product::orderBy('id','desc');
-        return view('dashboard')->with('products', $products);
+        return view('dashboard')->with(['products'=>$products]);
+//        return view('dashboard')->with('products', $products);
     }
 
-    public function productselected($id)
+    public function productSelected($id)
     {
         $product = Product::where('id', $id)->first();
-        return view('product')->with('product', $product);
+//        return view('product', compact('product'));
+        return view('product')->with(['product'=>$product]);;
     }
 }

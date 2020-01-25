@@ -14,8 +14,14 @@
 
 
 Route::get('/', 'PagesController@index')->name('dashboard');
-Route::get('/product/{id}', 'PagesController@productselected')->name('product');
+
+
+Route::get('/product/{id}', 'PagesController@productSelected')->name('product');
 
 Auth::routes();
 
-Route::get('/admin', 'AdminController@index')->name('admin');
+//Route::get('/admin', 'AdminController@index')->name('admin');
+//Route::delete('/admin/delete/{id}', 'AdminController@destroy')->name('delete');
+//Route::put('/admin/edit/{id}', 'AdminController@update')->name('edit');
+
+Route::resource('admin', 'AdminController');
