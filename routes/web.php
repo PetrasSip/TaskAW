@@ -16,12 +16,15 @@
 Route::get('/', 'PagesController@index')->name('dashboard');
 
 
-Route::get('/product/{id}', 'PagesController@productSelected')->name('product');
+Route::get('/product/{id}', 'PagesController@productSelected')
+    ->where('id', '[0-9]+')
+    ->name('product');
 
 Auth::routes();
 
-//Route::get('/admin', 'AdminController@index')->name('admin');
-//Route::delete('/admin/delete/{id}', 'AdminController@destroy')->name('delete');
-//Route::put('/admin/edit/{id}', 'AdminController@update')->name('edit');
-
 Route::resource('admin', 'AdminController');
+
+Route::get('/change-visibility/{id}', 'AdminController@changeVisibility')
+    ->where('id', '[0-9]+')
+    ->middleware('auth')
+    ->name('changeVisibility');

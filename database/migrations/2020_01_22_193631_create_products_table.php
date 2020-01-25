@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('description');
             $table->unsignedInteger('price');
             $table->boolean('visible');
+            $table->timestamps();
         });
     }
 

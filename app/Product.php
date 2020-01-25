@@ -6,34 +6,53 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    public function setting()
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function discount()
     {
-        return $this->hasOne('App\Setting');
+        return $this->hasOne(ProductDiscount::class);
     }
 
-
-    public function productDiscount()
-    {
-        return $this->hasOne('App\ProductDiscount');
-    }
-
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function quantity()
     {
-        return $this->hasOne('App\Quantity');
+        return $this->hasOne(Quantity::class);
     }
 
-
-    public function productReviews()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reviews()
     {
-        return $this->hasMany('App\ProductReview');
+        return $this->hasMany(ProductReview::class);
     }
 
-
-    public function productSpecifications()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function specifications()
     {
-        return $this->hasMany('App\ProductReview');
+        return $this->hasMany(ProductSpecification::class);
     }
 
+    /**
+     * @return float
+     */
+    public function finalPrice()
+    {
+        $price = $this->getAttribute('price');
+        $vat = (new Setting)->getVATSize();
+        $discountEntry = $this->discount;
+        $discount = $discountEntry ? $discountEntry->discount : 0;
+        if (!$price) {
+            return 0.00;
+        }
+        $finalPrice = $price + ($price * $vat / 100) - ($price * $discount / 100);
+        return round($finalPrice, 2);
+    }
 
 }

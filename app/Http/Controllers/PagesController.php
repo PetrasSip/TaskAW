@@ -9,27 +9,28 @@ use Illuminate\Support\Facades\DB;
 
 class PagesController extends Controller
 {
-    public function index()
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request)
     {
-
-
-//        $set = new Setting();
-//        $generateRandomVat = random_int(15, 99);
-//        $oldVat = $set->getVATSize();
-//        $set->saveVAT($generateRandomVat);
-//        $newVat = $set->getVATSize();
-//        return  'OLD VAT value: '.$oldVat.'<br />New VAT value: '.$newVat. "<br /> REFRESH TO CHANGE";
-
-        $products = Product::all();
-//        $products = Product::orderBy('id','desc');
-        return view('dashboard')->with(['products'=>$products]);
-//        return view('dashboard')->with('products', $products);
+        $products = Product::where('visible', 1)->paginate(15);
+        return view('dashboard')->with(['products' => $products]);
     }
 
-    public function productSelected($id)
+
+    /**
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function productSelected(int $id, Request $request)
     {
-        $product = Product::where('id', $id)->first();
-//        return view('product', compact('product'));
-        return view('product')->with(['product'=>$product]);;
+        $product = Product::where('id', $id)->where('visible', 1)->first();
+        if (!$product) {
+            return redirect()->route('dashboard')->withErrors(['wrong product id']);
+        }
+        return view('product')->with(['product' => $product]);
     }
 }
