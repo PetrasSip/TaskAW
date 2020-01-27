@@ -49,7 +49,7 @@ class Product extends Model
         $price = $this->getAttribute('price');
         $vat = (new Setting)->getVATSize();
         $discountEntry = $this->discount;
-        $discount = $discountEntry ? $discountEntry->discount : 0;
+        $discount = $discountEntry ? $discountEntry->value : 0;
         if (!$price) {
             return 0.00;
         }
