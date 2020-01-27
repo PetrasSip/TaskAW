@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
+    protected $table = 'settings';
+    protected $guarded = ['id'];
+
     const SETTING_VAT = 'vat';
     const SETTING_GLOBAL_DISCOUNT = 'global_discount';
 

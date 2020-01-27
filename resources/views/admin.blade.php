@@ -5,14 +5,14 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">All products</a>
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#all-products" role="tab" aria-controls="home" aria-selected="true">All products</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Add product</a>
+            <a class="nav-link" id="add-product-tab" data-toggle="tab" href="#add-product" role="tab" aria-controls="profile" aria-selected="false">Add product</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade show active" id="all-products" role="tabpanel" aria-labelledby="home-tab">
             <br>
             <h3>Products list</h3>
                 <table>
@@ -47,7 +47,6 @@
                         <td>{{$vat}}% </td>
                         <td>{{$product->finalPrice()}} Eur </td>
                         <td>
-{{--                            <a href="admin/{{$product->id}}/edit" class="btn btn-default">Edit</a>--}}
                             <a href="{{route('admin.edit',['admin' => $product->id])}}" class="btn btn-outline-primary">Edit</a>
                         </td>
                         <td>
@@ -63,42 +62,42 @@
             {{ $products->links() }}
         </div>
 
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade" id="add-product" role="tabpanel" aria-labelledby="add-product-tab">
             <br>
             <h3>Add new product</h3>
             <div class="container">
                 <form method="POST" action="{{ route('admin.store') }}">
                     @csrf
                     <div class="form-group row">
-                        <label for="edit" class="col-md-2 col-form-label">SKU</label>
+                        <label for="sku" class="col-md-2 col-form-label">SKU</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="sku" placeholder="ivedamas SKU">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Product name</label>
+                        <label for="name" class="col-md-2 col-form-label">Product name</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="name" placeholder="ivedamas prekes pavadinimas">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Product image</label>
+                        <label for="img" class="col-md-2 col-form-label">Product image</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="img" placeholder="ivedamas i public\storage ikeltos nuotraukos failo pavadinimas">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Product description</label>
+                        <label for="description" class="col-md-2 col-form-label">Product description</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="description" placeholder="ivedamas prekes aprasymas">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Product price</label>
+                        <label for="price" class="col-md-2 col-form-label">Product price</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="price" placeholder="ivedama kaina">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Discount</label>
+                        <label for="discount" class="col-md-2 col-form-label">Discount</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="discount" placeholder="ivedama nuolaida">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Product visible(0 or 1)</label>
+                        <label for="visible" class="col-md-2 col-form-label">Product visible(0 or 1)</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="visible" placeholder="0 - produktas nematomas;  1 - produktas matomas">
                             </div>
-                        <label for="edit" class="col-md-2 col-form-label">Product quantity</label>
+                        <label for="quantity" class="col-md-2 col-form-label">Product quantity</label>
                             <div class="col-md-9">
                                 <input class="form-control" type="text" name="quantity" placeholder="ivedamas kiekis">
                             </div>

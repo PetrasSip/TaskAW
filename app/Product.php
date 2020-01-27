@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $table = 'products';
+    protected $guarded = ['id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function discount()
     {
-        return $this->hasOne(ProductDiscount::class);
+        return $this->hasOne(ProductDiscount::class, 'product_id', 'id');
     }
 
     /**
@@ -20,7 +22,7 @@ class Product extends Model
      */
     public function quantity()
     {
-        return $this->hasOne(Quantity::class);
+        return $this->hasOne(Quantity::class, 'product_id', 'id');
     }
 
     /**
@@ -28,7 +30,7 @@ class Product extends Model
      */
     public function reviews()
     {
-        return $this->hasMany(ProductReview::class);
+        return $this->hasMany(ProductReview::class, 'product_id', 'id');
     }
 
     /**
@@ -36,7 +38,7 @@ class Product extends Model
      */
     public function specifications()
     {
-        return $this->hasMany(ProductSpecification::class);
+        return $this->hasMany(ProductSpecification::class, 'product_id', 'id');
     }
 
     /**
@@ -53,6 +55,14 @@ class Product extends Model
         }
         $finalPrice = $price + ($price * $vat / 100) - ($price * $discount / 100);
         return round($finalPrice, 2);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function specificationTypes()
+    {
+        return $this->hasManyThrough(Specification::class, ProductSpecification::class, 'product_id', 'id', 'id', 'specification_id');
     }
 
 }

@@ -21,7 +21,7 @@
                                         <a href="{{ route('product', ['id'=>$product->id]) }}"><img class="card-img-top" src="{{ url ('storage/'.$product->img)}}" alt="Card image" style="width:100%"></a>
                                         <div class="card-body">
                                             <h4 class="card-title">{{$product->name}}</h4>
-                                            <h6>{{$product->price}}</h6>
+                                            <h6>{{$product->finalPrice()}}</h6>
                                             <p class="card-text">{{$product->description}}</p>
                                             <a href="{{ route('product', ['id'=>$product->id]) }}" class="btn btn-primary">Details</a>
                                         </div>
@@ -31,7 +31,7 @@
                                     <div class="card" style="width:400px"></div>
                                 <?php } ?>
                                 </div>
-{{--                                {{ $products->links() }}--}}
+                                {{ $products->links() }}
                             </div>
                         </div>
                     </div>

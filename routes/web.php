@@ -24,6 +24,21 @@ Auth::routes();
 
 Route::resource('admin', 'AdminController');
 
+Route::post('add-specification/{id}', 'AdminController@addSpecification')
+    ->where('id', '[0-9]+')
+    ->middleware('auth')
+    ->name('addSpecification');
+
+Route::get('remove-specification/{pid}/{sid}', 'AdminController@removeSpecification')
+    ->where('pid', '[0-9]+')
+    ->where('sid', '[0-9]+')
+    ->middleware('auth')
+    ->name('removeSpecification');
+
+Route::post('new-specification', 'AdminController@addNewSpecification')
+    ->middleware('auth')
+    ->name('addNewSpecification');
+
 Route::get('/change-visibility/{id}', 'AdminController@changeVisibility')
     ->where('id', '[0-9]+')
     ->middleware('auth')
