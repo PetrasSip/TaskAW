@@ -13,6 +13,11 @@ class Setting extends Model
     const SETTING_VAT = 'vat';
     const SETTING_GLOBAL_DISCOUNT = 'global_discount';
 
+    public static $availableSettings = [
+        self::SETTING_VAT,
+        self:: SETTING_GLOBAL_DISCOUNT
+    ];
+
     /**
      * @param int $vatSize
      * @return Setting
@@ -35,5 +40,29 @@ class Setting extends Model
         $vatValue = $vatSetting ? $vatSetting->value : config('app.default_vat_size');
 
         return (int) $vatValue;
+    }
+
+    /**
+     * @param int $globalDiscount
+     * @return Builder
+     * @throws \Exception
+     */
+    public function saveGlobalDiscount(int $globalDiscount): Builder
+    {
+        if (!is_numeric($globalDiscount) || $globalDiscount < 0 || $globalDiscount > 100) {
+            throw new \Exception('wrong global discount value');
+        }
+        return self::updateOrInsert(['property' => self::SETTING_GLOBAL_DISCOUNT], ['value' => $globalDiscount]);
+    }
+
+    /**
+     * @return int
+     */
+    public function getGlobalDiscount(): int
+    {
+        $GlobalDiscountSetting = self::where('property', self::SETTING_GLOBAL_DISCOUNT)->first();
+        $GlobalDiscountValue = $GlobalDiscountSetting ? $GlobalDiscountSetting->value : 0;
+
+        return (int) $GlobalDiscountValue;
     }
 }

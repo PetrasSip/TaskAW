@@ -5,10 +5,13 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#all-products" role="tab" aria-controls="home" aria-selected="true">All products</a>
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#all-products" role="tab" aria-controls="all-products" aria-selected="true">All products</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="add-product-tab" data-toggle="tab" href="#add-product" role="tab" aria-controls="profile" aria-selected="false">Add product</a>
+            <a class="nav-link" id="add-product-tab" data-toggle="tab" href="#add-product" role="tab" aria-controls="add-product" aria-selected="false">Add product</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="vat-tab" data-toggle="tab" href="#vat" role="tab" aria-controls="vat" aria-selected="false">Change settings</a>
         </li>
     </ul>
     <div class="tab-content" id="myTabContent">
@@ -25,6 +28,7 @@
                         <th style="width:100px">Visible(on/off)</th>
                         <th style="width:100px">Price, Eur</th>
                         <th style="width:100px">Discount</th>
+                        <th style="width:100px">Global discount</th>
                         <th style="width:100px">Vat</th>
                         <th style="width:130px">Total price, Eur</th>
                         <th style="width:100px">Edit</th>
@@ -43,8 +47,9 @@
                         <a href="{{route('changeVisibility', ['id'=> $product->id])}}">change</a>
                         </td>
                         <td>{{$product->price}} </td>
-                        <td>{{$product->discount ? $product->discount->value : 0}} </td>
-                        <td>{{$vat}}% </td>
+                        <td>{{$product->discount ? $product->discount->value : 0}} % </td>
+                        <td>{{$globalDiscount}} % </td>
+                        <td>{{$vat}} % </td>
                         <td>{{$product->finalPrice()}} Eur </td>
                         <td>
                             <a href="{{route('admin.edit',['admin' => $product->id])}}" class="btn btn-outline-primary">Edit</a>
@@ -60,6 +65,8 @@
                     @endforeach
                 </table>
             {{ $products->links() }}
+
+
         </div>
 
         <div class="tab-pane fade" id="add-product" role="tabpanel" aria-labelledby="add-product-tab">
@@ -103,6 +110,34 @@
                             </div>
 
                         <button type="submit" class="btn btn-outline-danger">Add product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="vat" role="tabpanel" aria-labelledby="vat-tab">
+            <br>
+            <div class="container">
+                <br>
+                <h3>Change settings</h3>
+                <br>
+                <form method="POST" action="{{ route('changeSetting') }}">
+                    @csrf
+                    <div class="form-group row">
+                        <label for="setting" class="col-md-2 col-form-label">Setting</label>
+                        <div class="col-md-9">
+                            <select name="settingName">
+                                @foreach($settingsAvailable as $setting)
+                                    <option>{{$setting}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <label for="value" class="col-md-2 col-form-label">New setting value</label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" name="newValue" placeholder="ivedama nauja reiksme">
+                        </div>
+
+                        <button type="submit" class="btn btn-outline-danger">Change setting</button>
                     </div>
                 </form>
             </div>

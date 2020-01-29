@@ -29,6 +29,12 @@ Route::post('add-specification/{id}', 'AdminController@addSpecification')
     ->middleware('auth')
     ->name('addSpecification');
 
+Route::post('change-setting', 'AdminController@saveSetting')
+    ->middleware('auth')
+    ->name('changeSetting');
+
+
+
 Route::get('remove-specification/{pid}/{sid}', 'AdminController@removeSpecification')
     ->where('pid', '[0-9]+')
     ->where('sid', '[0-9]+')
@@ -36,6 +42,10 @@ Route::get('remove-specification/{pid}/{sid}', 'AdminController@removeSpecificat
     ->name('removeSpecification');
 
 Route::post('new-specification', 'AdminController@addNewSpecification')
+    ->middleware('auth')
+    ->name('addNewSpecification');
+
+Route::post('change-vat', 'AdminController@addNewSpecification')
     ->middleware('auth')
     ->name('addNewSpecification');
 

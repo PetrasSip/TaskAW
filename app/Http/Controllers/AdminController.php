@@ -31,11 +31,11 @@ class AdminController extends Controller
      */
     public function index()
     {
-//        $products = Product::all();
-//        return view('admin')->with(['products'=>$products]);
         $products = Product::paginate(15);
         $vat = (new Setting())->getVATSize();
-        return view('admin')->with(['products' => $products, 'vat' => $vat]);
+        $globalDiscount = (new Setting())->getGlobalDiscount();
+        $settingsAvailable = Setting::$availableSettings;
+        return view('admin')->with(['products' => $products, 'vat' => $vat, 'settingsAvailable' => $settingsAvailable, 'globalDiscount' => $globalDiscount]);
     }
 
     /**
@@ -92,9 +92,10 @@ class AdminController extends Controller
      */
     public function destroy(int $id)
     {
+        ProductSpecification::where(['product_id' => $id])->delete();
         Quantity::where(['product_id' => $id])->delete();
         ProductDiscount::where(['product_id' => $id])->delete();
-        Product::find($id)->delete();
+        Product::where('id', $id)->delete();
 
         return redirect()->route('admin.index');
     }
@@ -115,7 +116,6 @@ class AdminController extends Controller
         ]);
 
 
-
         $product = Product::find($id);
         // Update Product
         $product->name = $request->input('name');
@@ -125,13 +125,6 @@ class AdminController extends Controller
         $product->visible = $request->input('visible');
         $product->save();
 
-//        $quantity = Quantity::where(['product_id' => $id]);
-//        $quantity->value = $request->input('quantity');
-//        $product->quantity()->save($quantity);
-//
-//        $discount = ProductDiscount::where(['product_id' => $id]);
-//        $discount->value = $request->input('discount');
-//        $product->discount()->save($discount);
 
         if ($request->input('quantity')) {
             $product->quantity()->save(new Quantity(['value' => $request->input('quantity')]));
@@ -139,7 +132,7 @@ class AdminController extends Controller
 
         if ($request->input('discount')) {
             $product->discount()->save(new ProductDiscount(['value' => $request->input('discount')]));
-            }
+        }
 
         return redirect()
             ->route('admin.index')
@@ -190,9 +183,9 @@ class AdminController extends Controller
             return back()->withErrors(['product not found']);
         }
         ProductSpecification::updateOrInsert([
-                'product_id' => $id,
-                'specification_id' => $values['specification']
-                ], ['specification_text' => $values['productSpecification']]);
+            'product_id' => $id,
+            'specification_id' => $values['specification']
+        ], ['specification_text' => $values['productSpecification']]);
         return back()->with('message', 'specification saved');
     }
 
@@ -203,8 +196,8 @@ class AdminController extends Controller
      */
     public function removeSpecification(int $pid, int $sid)
     {
-            ProductSpecification::where(['product_id' => $pid, 'specification_id' => $sid])->delete();
-            return back()->with('message', 'specification deleted');
+        ProductSpecification::where(['product_id' => $pid, 'specification_id' => $sid])->delete();
+        return back()->with('message', 'specification deleted');
     }
 
     /**
@@ -226,4 +219,17 @@ class AdminController extends Controller
 
         return back()->with('message', 'specification type saved');
     }
+
+    public function saveSetting(Request $request)
+    {
+        $this->validate($request, [
+            'settingName' => 'required',
+            'newValue' => 'required|int'
+        ]);
+        Setting::updateOrInsert([
+            'property' => $request->input('settingName'),
+        ], ['value' => $request->input('newValue')]);
+        return back()->with('message', 'setting saved');
+    }
+
 }

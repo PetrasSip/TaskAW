@@ -15,7 +15,7 @@ class PagesController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::where('visible', 1)->paginate(15);
+        $products = Product::where('visible', 1)->paginate(2);
         return view('dashboard')->with(['products' => $products]);
     }
 
