@@ -50,10 +50,11 @@ class Product extends Model
         $vat = (new Setting)->getVATSize();
         $discountEntry = $this->discount;
         $discount = $discountEntry ? $discountEntry->value : 0;
+        $globalDiscount = $discount ? 0 : (new Setting)->getGlobalDiscount();
         if (!$price) {
             return 0.00;
         }
-        $finalPrice = $price + ($price * $vat / 100) - ($price * $discount / 100);
+        $finalPrice = $price + ($price * $vat / 100) - ($price * $discount / 100) - ($price * $globalDiscount / 100);
         return round($finalPrice, 2);
     }
 
