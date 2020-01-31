@@ -53,3 +53,7 @@ Route::get('/change-visibility/{id}', 'AdminController@changeVisibility')
     ->where('id', '[0-9]+')
     ->middleware('auth')
     ->name('changeVisibility');
+
+Route::post('/add-review/{id}', 'ReviewController@addReview')
+    ->where('id', '[0-9]+')
+    ->name('addReview');

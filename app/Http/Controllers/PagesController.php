@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\ProductReview;
 use App\Setting;
+use App\Specification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,4 +35,5 @@ class PagesController extends Controller
         }
         return view('product')->with(['product' => $product]);
     }
+
 }

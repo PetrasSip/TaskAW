@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddNewSpecification;
 use App\Http\Requests\AddSpecification;
+use App\Http\Requests\SaveSetting;
+use App\Http\Requests\StoreProduct;
+use App\Http\Requests\UpdateProduct;
 use App\Product;
+use App\ProductReview;
 use App\ProductSpecification;
 use App\Setting;
 use App\Quantity;
@@ -52,33 +57,27 @@ class AdminController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
 
-        $this->validate($request, [
-            'sku' => 'required|unique:products',
-            'name' => 'required',
-            'img' => 'required',
-            'description' => 'required',
-            'price' => 'required|int'
-        ]);
+        $value = $request->validated();
 
         // Add Product
         $product = new Product;
-        $product->sku = $request->input('sku');
-        $product->name = $request->input('name');
-        $product->img = $request->input('img');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
+        $product->sku = $value['sku'];
+        $product->name = $value['name'];
+        $product->img = $value['img'];
+        $product->description = $value['description'];
+        $product->price = $value['price'];
         $product->visible = $request->input('visible');
         $product->save();
 
         $quantity = new Quantity;
-        $quantity->value = $request->input('quantity');
+        $quantity->value = $value['quantity'];
         $product->quantity()->save($quantity);
 
         $discount = new ProductDiscount;
-        $discount->value = $request->input('discount');
+        $discount->value = $value['discount'];
         $product->discount()->save($discount);
 
         return redirect()
@@ -106,22 +105,15 @@ class AdminController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, int $id)
+    public function update(UpdateProduct $request, int $id)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'img' => 'required',
-            'description' => 'required',
-            'price' => 'required|int'
-        ]);
-
-
+        $value = $request->validated();
         $product = Product::find($id);
         // Update Product
-        $product->name = $request->input('name');
-        $product->img = $request->input('img');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
+        $product->name = $value ['name'];
+        $product->img = $value ['img'];
+        $product->description = $value ['description'];
+        $product->price = $value ['price'];
         $product->visible = $request->input('visible');
         $product->save();
 
@@ -205,30 +197,25 @@ class AdminController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function addNewSpecification(Request $request)
+    public function addNewSpecification(AddNewSpecification $request)
     {
 
-        $this->validate($request, [
-            'specification' => 'required',
-        ]);
+        $values = $request->validated();
 
         // Add Specification
         $specification = new Specification;
-        $specification->name = $request->input('specification');
+        $specification->name = $values['specification'];
         $specification->save();
 
         return back()->with('message', 'specification type saved');
     }
 
-    public function saveSetting(Request $request)
+    public function saveSetting(SaveSetting $request)
     {
-        $this->validate($request, [
-            'settingName' => 'required',
-            'newValue' => 'required|int'
-        ]);
+        $value = $request->validated();
         Setting::updateOrInsert([
-            'property' => $request->input('settingName'),
-        ], ['value' => $request->input('newValue')]);
+            'property' => $value['settingName'],
+        ], ['value' => $value ['newValue']]);
         return back()->with('message', 'setting saved');
     }
 
